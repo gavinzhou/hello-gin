@@ -1,34 +1,52 @@
 package models
 
 import (
+	"fmt"
 	"log"
 
-	"github.com/go-pg/pg"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 
 	"github.com/gavinzhou/hello-gin/pkg/setting"
 )
 
-var db *pg.DB
+var db *gorm.DB
 
 type Model struct {
-	ID         int64
+	ID         int `gorm:"primary_key" json:"id"`
 	CreatedOn  int `json:"created_on"`
 	ModifiedOn int `json:"modified_on"`
 }
 
-func ModelDB() *pg.DB {
-	cfg, err := setting.LoadConfig()
+func init() {
+	var (
+		err                                     error
+		dbType, dbName, user, host, tablePrefix string
+	)
+
+	dbType = setting.Config.DBType
+	dbName = setting.Config.DBName
+	user = setting.Config.DBUser
+	host = setting.Config.DBHost
+	tablePrefix = setting.Config.TablePrefix
+
+	db, err = gorm.Open(dbType, fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable",
+		host,
+		user,
+		dbName,
+	))
 
 	if err != nil {
-		log.Fatal(2, "Fail to load config with database: %v", err)
+		log.Println(err)
 	}
 
-	db := pg.Connect(&pg.Options{
-		User:     cfg.Username,
-		Database: cfg.Database,
-	})
-	return db
+	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+		return tablePrefix + defaultTableName
+	}
 
+	db.SingularTable(true)
+	db.DB().SetMaxIdleConns(10)
+	db.DB().SetMaxOpenConns(100)
 }
 
 func CloseDB() {

@@ -1,16 +1,20 @@
 package setting
 
 import (
+	"log"
 	"time"
 
 	"github.com/kelseyhightower/envconfig"
 )
 
 type DBConfig struct {
-	DBHost   string `envconfig:"DBHost"`
-	Username string `envconfig:"Username"`
-	Password string `envconfig:"Password"`
-	Database string `envconfig:"Database"`
+	DBType      string `envconfig:"DBType"`
+	DBHost      string `envconfig:"DBHost"`
+	DBPort      string `envconfig:"DBPort"`
+	DBUser      string `envconfig:"DBUser"`
+	DBPassword  string `envconfig:"DBPassword"`
+	DBName      string `envconfig:"DBName"`
+	TablePrefix string `envconfig:"TABLE_PREFIX"`
 }
 
 type ServerConfig struct {
@@ -20,22 +24,22 @@ type ServerConfig struct {
 }
 
 type AppConfig struct {
-	RunMode   string `envconfig:"RUNMODE"`
+	RunMode   string `envconfig:"RUN_MODE"`
 	PageSize  int    `envconfig:"PAGESIZE"`
-	JWTSecret string `envconfig:"JWTSECRET`
+	JwtSecret string `envconfig:"JWTSECRET`
 }
 
-type Config struct {
+type config struct {
 	DBConfig
 	ServerConfig
 	AppConfig
 }
 
-func NewConfig() (Config, error) {
-	var config Config
-	err := envconfig.Process("", &config)
+var Config = config{}
+
+func init() {
+	err := envconfig.Process("", &Config)
 	if err != nil {
-		return Config{}, err
+		log.Fatalf("Fail to load config wiht env : %v", err)
 	}
-	return config, nil
 }
