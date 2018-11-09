@@ -7,10 +7,12 @@ import (
 )
 
 type DBConfig struct {
-	DBHost   string `envconfig:"DBHost"`
-	Username string `envconfig:"Username"`
-	Password string `envconfig:"Password"`
-	Database string `envconfig:"Database"`
+	DBType     string `envconfig:"DBType"`
+	DBHost     string `envconfig:"DBHost"`
+	DBPort     string `envconfig:"DBPort"`
+	DBUser     string `envconfig:"DBUser"`
+	DBPassword string `envconfig:"DBPassword"`
+	DBName     string `envconfig:"DBName"`
 }
 
 type ServerConfig struct {
@@ -20,7 +22,7 @@ type ServerConfig struct {
 }
 
 type AppConfig struct {
-	RunMode   string `envconfig:"RUNMODE"`
+	RunMode   string `envconfig:"RUN_MODE"`
 	PageSize  int    `envconfig:"PAGESIZE"`
 	JWTSecret string `envconfig:"JWTSECRET`
 }
