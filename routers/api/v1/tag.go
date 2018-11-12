@@ -47,11 +47,11 @@ func AddTag(c *gin.Context) {
 	createdBy := c.Query("created_by")
 
 	valid := validation.Validation{}
-	valid.Required(name, "name").Message("name is not null")
-	valid.MaxSize(name, 100, "name").Message("name max length is 100")
-	valid.Required(createdBy, "created_by").Message("Auth is not null")
-	valid.MaxSize(createdBy, 100, "created_by").Message("auth name max length is 100")
-	valid.Range(state, 0, 1, "state").Message("state only 0 or 1")
+	valid.Required(name, "name").Message("The name cannot be empty")
+	valid.MaxSize(name, 100, "name").Message("The name is a maximum of 100 characters")
+	valid.Required(createdBy, "created_by").Message("The creator cannot be empty")
+	valid.MaxSize(createdBy, 100, "created_by").Message("The creator is up to 100 characters long")
+	valid.Range(state, 0, 1, "state").Message("Status only allows 0 or 1")
 
 	code := e.INVALID_PARAMS
 	if !valid.HasErrors() {
@@ -87,10 +87,10 @@ func EditTag(c *gin.Context) {
 		valid.Range(state, 0, 1, "state").Message("state only 0 or 1")
 	}
 
-	valid.Required(id, "id").Message("ID is not null")
-	valid.Required(modifiedBy, "modified_by").Message("ModifiedBy can not null")
-	valid.MaxSize(modifiedBy, 100, "modified_by").Message("ModifiedBy max length is 100")
-	valid.MaxSize(name, 100, "name").Message("Name max length is 100")
+	valid.Required(id, "id").Message("ID cannot be empty")
+	valid.Required(modifiedBy, "modified_by").Message("The creator cannot be empty")
+	valid.MaxSize(modifiedBy, 100, "modified_by").Message("The creator is up to 100 characters long")
+	valid.MaxSize(name, 100, "name").Message("The name is a maximum of 100 characters")
 
 	code := e.INVALID_PARAMS
 	if !valid.HasErrors() {
@@ -126,7 +126,7 @@ func DeleteTag(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 
 	valid := validation.Validation{}
-	valid.Min(id, 1, "id").Message("ID must more than the 0")
+	valid.Min(id, 1, "id").Message("ID must be greater than 0")
 
 	code := e.INVALID_PARAMS
 	if !valid.HasErrors() {
