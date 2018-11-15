@@ -1,11 +1,36 @@
+default: &default
+  working_directory: &working_directory
+    ~/hello-gin
+  environment:
+    GO111MODULE: "on"
+
+gomod_cache_key: &gomod_cache_key gomod-v1-{{ checksum "go.sum" }}
+restore_gomod_cache: &restore_gomod_cache
+  restore_cache:
+      key: *gomod_cache_key
+
+checkout_cache_key: &checkout_cache_key v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+restore_checkout_cache: &restore_checkout_cache
+  restore_cache:
+    key: *checkout_cache_key
+
+
 version: 2
 jobs:
   build:
+    <<: [*default]
     docker:
       - image: circleci/golang:1.11
-        environment:
-          GO111MODULE: "on"
-    working_directory: ~/hello-gin
     steps:
+      - *restore_checkout_cache
       - checkout
+      - save_cache:
+          key: *checkout_cache_key
+          paths: *working_directory      
+      - *restore_gomod_cache
+      - run: go mod download
+      - save_cache:
+          key: *gomod_cache_key
+          paths:
+            - "/go/pkg/mod"
       - run: go test ./...
