@@ -33,4 +33,8 @@ jobs:
           key: *gomod_cache_key
           paths:
             - "/go/pkg/mod"
-      - run: go test ./...
+      - run: 
+          name: Run test
+          command: |
+            eval $(cat .env)
+            go test ./...
