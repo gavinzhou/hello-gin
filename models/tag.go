@@ -15,19 +15,6 @@ type Tag struct {
 	State      int    `json:"state"`
 }
 
-func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("CreatedOn", time.Now().Unix())
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
-
-	return nil
-}
-
-func (tag *Tag) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("ModifiedOn", time.Now().Unix())
-
-	return nil
-}
-
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
 	db.Where(maps).Offset(pageNum).Limit(pageSize).Find(&tags)
 
@@ -72,4 +59,17 @@ func EditTag(id int, data interface{}) bool {
 	db.Model(&Tag{}).Where("id = ?", id).Updates(data)
 
 	return true
+}
+
+func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
+	scope.SetColumn("CreatedOn", time.Now().Unix())
+	scope.SetColumn("ModifiedOn", time.Now().Unix())
+
+	return nil
+}
+
+func (tag *Tag) BeforeUpdate(scope *gorm.Scope) error {
+	scope.SetColumn("ModifiedOn", time.Now().Unix())
+
+	return nil
 }
