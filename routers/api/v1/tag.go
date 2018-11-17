@@ -13,6 +13,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary 複数記事タグ取得
+// @Produce  json
+// @Param name query string false "Name"
+// @Param state query int false "State"
+// @Success 200 {string} json "{"code":200,"data":{"lists":[{"id":3,"created_on":1516849721,"modified_on":0,"name":"3333","created_by":"4555","modified_by":"","state":0}],"total":29},"msg":"ok"}"
+// @Router /api/v1/tags [get]
 func GetTags(c *gin.Context) {
 	name := c.Query("name")
 
@@ -41,6 +47,13 @@ func GetTags(c *gin.Context) {
 	})
 }
 
+// @Summary 新規記事タク
+// @Produce  json
+// @Param name query string true "Name"
+// @Param state query int false "State"
+// @Param created_by query int false "CreatedBy"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [post]
 func AddTag(c *gin.Context) {
 	name := c.Query("name")
 	state := com.StrTo(c.DefaultQuery("state", "0")).MustInt()
@@ -74,6 +87,14 @@ func AddTag(c *gin.Context) {
 	})
 }
 
+// @Summary 修正記事タク
+// @Produce  json
+// @Param id param int true "ID"
+// @Param name query string true "ID"
+// @Param state query int false "State"
+// @Param modified_by query string true "ModifiedBy"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags/{id} [put]
 func EditTag(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 	name := c.Query("name")
@@ -122,6 +143,11 @@ func EditTag(c *gin.Context) {
 	})
 }
 
+// @Summary 删除記事タク
+// @Produce  json
+// @Param id param int true "ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags/{id} [delete]
 func DeleteTag(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 
