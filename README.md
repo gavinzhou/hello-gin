@@ -7,3 +7,4 @@
 - [go-ginチュートリアル — Part3 | GinのBlog API’s 作成 — DB](https://medium.com/@gavin.zhou/go-gin%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB-part3-80c3c3080242)
 - [go-ginチュートリアル — Part4 | GinのBlog API’s 作成 — DB続き](https://medium.com/@gavin.zhou/go-gin%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB-part4-d2db5ecd03fb)
 - [go-ginチュートリアル — Part5 | GinのBlog API’s 作成 — DB周り最終章](https://medium.com/@gavin.zhou/go-gin%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB-part5-83918c7d178d)
+- [go-ginチュートリアル — Part6 | GinのBlog API's 作成 - Testing&CI周り](https://medium.com/@gavin.zhou/go-gin%E3%83%81%E3%83%A5%E3%83%BC%E3%83%88%E3%83%AA%E3%82%A2%E3%83%AB-part6-23bd493904b)
